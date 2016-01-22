@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="250" height="250" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="simples_pimples" tilewidth="16" tileheight="16" tilecount="4000">
+  <image source="platform/simples_pimples.png" width="800" height="1280"/>
+  <tile id="104">
+   <properties>
+    <property name="background" value="true"/>
+   </properties>
+  </tile>
+  <tile id="105">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="200">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="202">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="203">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="206">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="250">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="252">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="253">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="256">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="300">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="301">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="302">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="350">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="351">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="352">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="401">
+   <properties>
+    <property name="deadly" value="true"/>
+   </properties>
+  </tile>
+  <tile id="501">
+   <properties>
+    <property name="door2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="502">
+   <properties>
+    <property name="sdoor1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="503">
+   <properties>
+    <property name="sdoor2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="505">
+   <properties>
+    <property name="door3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="507">
+   <properties>
+    <property name="door4" value=""/>
+   </properties>
+  </tile>
+  <tile id="508">
+   <properties>
+    <property name="door5" value="true"/>
+   </properties>
+  </tile>
+  <tile id="509">
+   <properties>
+    <property name="door1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="510">
+   <properties>
+    <property name="sdoor3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="511">
+   <properties>
+    <property name="sdoor4" value="true"/>
+   </properties>
+  </tile>
+  <tile id="600">
+   <properties>
+    <property name="ladder" value="true"/>
+   </properties>
+  </tile>
+  <tile id="601">
+   <properties>
+    <property name="ladder" value="true"/>
+   </properties>
+  </tile>
+  <tile id="602">
+   <properties>
+    <property name="ladder" value="true"/>
+   </properties>
+  </tile>
+  <tile id="603">
+   <properties>
+    <property name="ladder" value="true"/>
+   </properties>
+  </tile>
+  <tile id="604">
+   <properties>
+    <property name="ladder" value="true"/>
+   </properties>
+  </tile>
+  <tile id="605">
+   <properties>
+    <property name="ladder" value="true"/>
+   </properties>
+  </tile>
+  <tile id="701">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="703">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="709">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="713">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1200">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2450">
+   <properties>
+    <property name="deadly" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="4001" name="Jungle_terrain" tilewidth="16" tileheight="16" tilecount="1680">
+  <image source="platform/Jungle_terrain.png" width="896" height="480"/>
+  <tile id="483">
+   <properties>
+    <property name="deadly" value="true"/>
+   </properties>
+  </tile>
+  <tile id="538">
+   <properties>
+    <property name="bg" value="true"/>
+   </properties>
+  </tile>
+  <tile id="539">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="550">
+   <properties>
+    <property name="bg" value="true"/>
+   </properties>
+  </tile>
+  <tile id="551">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="5681" name="simples_pimples" tilewidth="16" tileheight="16" tilecount="4000">
+  <image source="simples_pimples.png" width="800" height="1280"/>
+ </tileset>
+ <tileset firstgid="9681" name="Gameboy Tileset" tilewidth="16" tileheight="16" tilecount="90">
+  <image source="Gameboy Tileset.png" width="160" height="144"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="250" height="250">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3dUWoTURTH4UxxA1lIdUnVx3Ydbsjn5qFPVkRwNyIiRS4ltrSZZCZ3pnPnz/fBQSlp+vTLORoxmw0AAAAAADC13XZ9A4xTurld0egcxtM55Nvfwkv3q3OYj84hX8udP3Q6hym01PmPzeHROdSZsvEv7x7H3Q5tGdv53YXOYW12R+7lKWfMnX5sdA7jlW4eNvPPoWbPeR6dAwAAAAAAAAAAAAAAAAAAAAAAAKm+bdscYDqlqfvGRucwLZ1DPp1Dvqk7L5/XUkbn0I4pOq/tWucwr5rOp+5b5zCPczp/eZufutWH3PK/Op3DXEpT77vhM9XOPvYzdA7TKk197IbPmNeEY3PsZ+gcAAAAAAAAAAAAAAAAAAAAAADgtZuVDTBeaed6JaNzOI/OIZ/OIZ/OId/Yzr9ePI7OYT3sc8g3tPMl97jOoY59DvlOdd7CHtc51Fm6XZ3D/Pr2eUt7XOdQx5/PId/Lzlvc4zqHOq3s82OvLb87nUONfef7PX7OLu/7vudf3/96s3n9taGvATqH87Syz93tAAAAAAAAAAAAAAAAAAAAAAAAAEC63bb9AeqUjm4bHp1Dvb7Of25Oj85hHd56n99dPI7O4e242yHfoc7H7Nuxe3zsc+sc6k2xz8/p99T86XQOUykdfejqp6/XIY/pe3wZnUO90tGnrn76+h/ymL7Hf9I5AAAAAAAAAAAAAAAAAAAAwGS+becfYFmlw/sZR+ewPJ1DPp1DPp1DPp1DvlOdl89f0Dms26HO95+vcqr1Ia8BOofludsh3/POX+7xU3Ps8X87nUMr5trn+/51DssrHV52TzNl6+X5dA7LKx1edU9zOeFc6RwAAAAAAAAAAAAAAAAAAAAAAAAA4L+bkQOsT2n3euDoHNZJ55BP55BP55BP55DveeffLw7/Xuewbn37XOeQwz6HfPY55PP3cJBP55BP55BP55BP55BP55CvtFveQzs0L99n0zmsU9/u1jnkGPrvZHQO66VzyKdzyNfX+Wajc0gx5n21657nANp27H21Q++zAesz5v9u1zkAAAAAAAAAAAAAAAAAAAAAAMBydtv2B6hTOrpteHQO9XQO+XQO+XQO+XQO+XbPejqn+bm/T+dQT+eQb2hrS70G6Bzq6Rzyudshn84hn7sd8ukc8rnbIZ/OIZ+7HfLpHPK52yGfziGfux3y6Rzyudshn84hn7sd8ukc8rnbIZ/OIZ+7HfLpHPK52yGfziGfux3y6Rzyudshn84hn7sd8ukc8rnbIZ/OIZ+7HfLpHPKd0+Fbjs6hns4hn84hn84hn84hX+noc8OjcxjvH0YLJbOQ0AMA
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="250" height="250">
+  <properties>
+   <property name="deadly" value="true"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3dQU7CUBSG0bazroIRm5IVuB2ISzOuwbgAB2jURAcaNYViW/vfc5KbMKDwJjdfCIPXNAAAAAAAAAAAAADAWLtu6RMAU7PnkM+eQz57Duu3b78PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDcHt2hBKt06N8HqOen+xDHDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUM9Vt/QJAGAd9u06BgAAAAAAAAAAAAAAAAAAAAAAAAAAAABgCbtueC79fKAG+w512HeY36EfniF2F7KccieaO9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA1etosfQJgDi/uTwEAgEWcctfhqQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHApd5tDPnsO2Y4bew4V2HMAAAAAADjfTf91fnsPkOf48f+a/9kglz2HfPYc8tlzyGfPIdv1p9f2HIJ0Sx8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGDY7bZp7rb//zlgvPu3nXsYsXdzPwdMQ+shn9ZDBs2GfJoNtWk95NN6yKDZkE+zoTath3xaDxk0G/JpNtSm9ZBP6yGDZkM+zYbatB7yaT1k0GzIp9lQm9ZDPq2HDJoN+aZq73P7t98HTEPrIZ/f55BBsyGfZkNtWg/5tB4yaDbk02yoTeshn9YDAAAAAABQzSudhPDikNADAA==
+  </data>
+ </layer>
+</map>
