@@ -129,7 +129,7 @@ public class DungeonChallenge extends BasicGameState {
         grassMap = new TiledMap("res/platform.tmx");
 
         // Ongoing checks are useful
-        System.out.println("Tile map is this wide: " + grassMap.getWidth());
+//        System.out.println("Tile map is this wide: " + grassMap.getWidth());
 
         camera = new Camera(gc, grassMap);
 
@@ -199,8 +199,8 @@ public class DungeonChallenge extends BasicGameState {
         // You could also use this for planning traps, etc.
         // System.out.println("Number of tile layers: "
         // +grassMap.getLayerCount());
-        System.out.println("The grassmap is " + grassMap.getWidth() + "by "
-                + grassMap.getHeight());
+//        System.out.println("The grassmap is " + grassMap.getWidth() + "by "
+//                + grassMap.getHeight());
 
         for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
 
@@ -218,8 +218,8 @@ public class DungeonChallenge extends BasicGameState {
 
                 if ("true".equals(value)) {
 
-                    System.out.println("The tile at x " + xAxis + " andy axis "
-                            + yAxis + " is blocked.");
+//                    System.out.println("The tile at x " + xAxis + " andy axis "
+//                            + yAxis + " is blocked.");
 
                     Blocked.blocked[xAxis][yAxis] = true;
 
@@ -247,7 +247,7 @@ public class DungeonChallenge extends BasicGameState {
                 }
             }
         }
-        System.out.println("Array length" + Blocked.blocked[0].length);
+//        System.out.println("Array length" + Blocked.blocked[0].length);
 
         // A remarkably similar process for finding hostiles
         hostiles = new boolean[grassMap.getWidth()][grassMap.getHeight()];
@@ -673,8 +673,7 @@ public class DungeonChallenge extends BasicGameState {
         try {
             return Blocked.blocked[xBlock][yBlock];
         } catch (IndexOutOfBoundsException e) {
-            // this could make a better kludge
-            System.out.println("whoops");
+//            System.out.println("whoops");
             Player.y -= 32;
             return true;
         }
