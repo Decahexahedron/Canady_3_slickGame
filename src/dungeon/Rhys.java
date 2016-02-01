@@ -1,24 +1,25 @@
-package slickexample;
+package dungeon;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-class item1 {
+class Rhys {
 
     public int x;
     public int y;
     public boolean isvisible = true;
     Image currentImage;
     Shape hitbox;
-    Image healthpotion = new Image("res/speed_potion.png");
+    Image rhys = new Image(
+            "res/coke.png");
 
-    item1(int a, int b) throws SlickException {
+    Rhys(int a, int b) throws SlickException {
         this.x = a;
         this.y = b;
         this.hitbox = new Rectangle(a, b, 32, 32);// 64 is the width of the item
-        this.currentImage = healthpotion;
+        this.currentImage = rhys;
 
     }
 

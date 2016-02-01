@@ -1,4 +1,4 @@
-package slickexample;
+package dungeon;
 
 
 import org.newdawn.slick.*;
@@ -27,7 +27,7 @@ public class Main extends StateBasedGame{
 
       this.addState(new Menu(xSize, ySize));
 
-      this.addState(new Unwavering(xSize, ySize));
+      this.addState(new DungeonChallenge(xSize, ySize));
       
       this.addState(new lose(xSize, ySize));
       

@@ -1,4 +1,4 @@
-package slickexample;
+package dungeon;
 
 class Deadly {
 

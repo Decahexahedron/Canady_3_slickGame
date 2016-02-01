@@ -1,4 +1,4 @@
-package slickexample;
+package dungeon;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.geom.Rectangle;

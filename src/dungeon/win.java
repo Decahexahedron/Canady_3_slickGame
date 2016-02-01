@@ -1,13 +1,18 @@
-package slickexample;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dungeon;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 
 import org.newdawn.slick.Game;
 
 import org.newdawn.slick.GameContainer;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import org.newdawn.slick.Input;
 
@@ -21,47 +26,43 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class lose extends BasicGameState {
+public class win extends BasicGameState {
 
     private StateBasedGame game;
-    public Image startimage;
+    public Image winImage;
 
-    public lose(int xSize, int ySize) {
+    public win(int xSize, int ySize) {
 
     }
 
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException {
-        startimage = new Image("res/LossScreen.png");
-
+ winImage = new Image("res/Win.png");
         this.game = game;
 
-// TODO AutoÃ¢â‚¬Âgenerated method stub
+// TODO AutoÃ¢â‚¬Âgenerated method stub
     }
 
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
 
-        startimage.draw();
-
-// TODO AutoÃ¢â‚¬Âgenerated method stub
+// TODO AutoÃ¢â‚¬Âgenerated method stub
         g.setColor(Color.white);
-
-        //g.drawString("You LOSE!", 450, 200);
-//        g.drawString("press 1 to try again", 400, 320);
+       winImage.draw();
+        g.drawString("Your score was: " + DungeonChallenge.score, 400, 320);
 
     }
 
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
 
-// TODO AutoÃ¢â‚¬Âgenerated method stub
+// TODO AutoÃ¢â‚¬Âgenerated method stub
     }
 
     public int getID() {
 
-// TODO AutoÃ¢â‚¬Âgenerated method stub
-        return 2;
+// TODO AutoÃ¢â‚¬Âgenerated method stub
+        return 3;
 
     }
 
@@ -73,19 +74,25 @@ public class lose extends BasicGameState {
 
             case Input.KEY_1:
 
-                Player.health = 10000;
+                Player.health = 1000;
                 Player.speed = .22f;
-                Unwavering.counter = 0;
+                DungeonChallenge.counter = 0;
+                Player.x = 96f;
+                Player.y = 220f;
+                DungeonChallenge.score = 0;
+                DungeonChallenge.currentSpawnX = 96;
+                DungeonChallenge.currentSpawnY = 220;
+                DungeonChallenge.currentStage = "Stage 1";
+                
+                //item.isvisible = true;
+                //item1.isvisible = true;
                 itemwin.isvisible = true;
-                Player.x = Unwavering.currentSpawnX;
-                Player.y = Unwavering.currentSpawnY;
-                //redo potions and reset cordinates of player
                 game.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 
                 break;
 
             case Input.KEY_2:
-                
+
 // TODO: Implement later
                 break;
 
