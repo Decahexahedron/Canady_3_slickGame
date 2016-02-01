@@ -190,7 +190,6 @@ public class DungeonChallenge extends BasicGameState {
         // Obstacles etc.
         // build a collision map based on tile properties in the TileD map
         Blocked.blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
-//        Deadly.deadly = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
         // System.out.println("Map height:" + grassMap.getHeight());750
         // System.out.println("Map width:" + grassMap.getWidth());
@@ -247,8 +246,6 @@ public class DungeonChallenge extends BasicGameState {
                 }
             }
         }
-//        System.out.println("Array length" + Blocked.blocked[0].length);
-
         // A remarkably similar process for finding hostiles
         hostiles = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
@@ -282,10 +279,6 @@ public class DungeonChallenge extends BasicGameState {
             }
         }
 
-//        healthpotion = new Item(100, 100);
-//        healthpotion1 = new Item(450, 400);
-//        stuff.add(healthpotion);
-//        stuff.add(healthpotion1);
         door1 = new Door(690, 174);
         door2 = new Door(607, 684);
         sdoor1 = new Door(340, 671);
@@ -365,8 +358,6 @@ public class DungeonChallenge extends BasicGameState {
         g.drawString("Score: " + score, camera.cameraX + 10, camera.cameraY + 10);
         g.drawString("Current Stage: " + currentStage, camera.cameraX + 10, camera.cameraY + 25);
         //g.draw(player.rect);
-//        g.drawString("time passed: " + counter / 1000, camera.cameraX + 600, camera.cameraY);
-        // moveenemies();
 
 //        for (Lava l : lavalist) {
 //            g.draw(l.hitbox);
@@ -380,9 +371,6 @@ public class DungeonChallenge extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
 
-//        while (gravity) {
-//            Player.y -= 1f;
-//        }
         if (isBlocked(Player.x, Player.y + SIZE + delta * 0.1f)) {
             ground = true;
         } else if (isLand(Player.x, Player.y + SIZE + delta * 0.1f)) {
@@ -401,9 +389,6 @@ public class DungeonChallenge extends BasicGameState {
                 && !Player.rect.intersects(ladder4.hitbox) && !Player.rect.intersects(ladder5.hitbox)
                 && !Player.rect.intersects(ladder6.hitbox) && !Player.rect.intersects(ladder7.hitbox)) {
             Player.speed = 0.22f;
-//            verticalSpeed = 2;
-//            Player.y += verticalSpeed;
-//            sprite.update(delta);
             if (!isBlocked(Player.x - 5, Player.y + SIZE + 1 + fdelta)
                     && (!isBlocked(Player.x + SIZE - 1, Player.y + SIZE + fdelta))) {
 
@@ -633,7 +618,6 @@ public class DungeonChallenge extends BasicGameState {
             }
         }
 
-//        Player.health -= counter / 1000;
         if (Player.health <= 0) {
             makevisible();
             sbg.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
