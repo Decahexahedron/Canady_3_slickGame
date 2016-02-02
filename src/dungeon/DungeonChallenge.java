@@ -53,11 +53,11 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 public class DungeonChallenge extends BasicGameState {
 
+    public Player player;
     public boolean jumping = false;
     public float verticalSpeed;
     public boolean ground = false;
     private boolean[][] land;
-//    land  = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
     public static float currentSpawnX = 96f;
     public static float currentSpawnY = 220f;
@@ -70,21 +70,12 @@ public class DungeonChallenge extends BasicGameState {
     public Door door1, door2, sdoor1, sdoor2, door3, sdoor3, sdoor4, door4;
     public Ladder ladder1, ladder2, ladder3, ladder4, ladder5, ladder6, ladder7;
 
-    public ArrayList<Item> stuff = new ArrayList();
-
-    public ArrayList<item1> stuff1 = new ArrayList();
-
     public ArrayList<itemwin> stuffwin = new ArrayList();
-
-    public ArrayList<Ninja> ninjaz = new ArrayList();
-
-    public ArrayList<Rhys> rhys = new ArrayList();
 
     public ArrayList<Lava> lavalist = new ArrayList();
 
     public ArrayList<Ladder> ladderlist = new ArrayList();
 
-//    public ArrayList<Enemy> enemies = new ArrayList();
     private boolean[][] hostiles;
 
     private static TiledMap grassMap;
@@ -96,8 +87,7 @@ public class DungeonChallenge extends BasicGameState {
     public static int counter = 0;
 
     // Player stuff
-    private Animation sprite, up, down, left, right, wait, jump;
-
+//    private Animation sprite, up, down, left, right, jump;
     /**
      *
      * The collision map indicating which tiles block movement - generated based
@@ -123,102 +113,23 @@ public class DungeonChallenge extends BasicGameState {
 
         gc.setShowFPS(false);
 
-        // *******************
-        // Scenerey Stuff
-        // ****************
         grassMap = new TiledMap("res/platform.tmx");
-
-        // Ongoing checks are useful
-//        System.out.println("Tile map is this wide: " + grassMap.getWidth());
 
         camera = new Camera(gc, grassMap);
 
-        // *********************************************************************************
-        // Player stuff --- these things should probably be chunked into methods
-        // and classes
-        // *********************************************************************************
-        SpriteSheet runningSS = new SpriteSheet(
-                "res/sprites.png", 16, 16, 0);
-
-        // System.out.println("Horizontal count: "
-        // +runningSS.getHorizontalCount());
-        // System.out.println("Vertical count: " +runningSS.getVerticalCount());
-        jump = new Animation();
-
-        jump.setAutoUpdate(true);
-
-        jump.addFrame(runningSS.getSprite(1, 5), 330);
-
-        up = new Animation();
-
-        up.setAutoUpdate(true);
-
-        up.addFrame(runningSS.getSprite(3, 5), 330);
-
-        down = new Animation();
-
-        down.setAutoUpdate(false);
-
-        down.addFrame(runningSS.getSprite(0, 5), 330);
-
-        left = new Animation();
-
-        left.setAutoUpdate(false);
-
-        left.addFrame(runningSS.getSprite(0, 9), 130);
-        left.addFrame(runningSS.getSprite(1, 9), 130);
-        left.addFrame(runningSS.getSprite(2, 9), 130);
-
-        right = new Animation();
-
-        right.setAutoUpdate(false);
-
-        right.addFrame(runningSS.getSprite(0, 11), 130);
-        right.addFrame(runningSS.getSprite(1, 11), 130);
-        right.addFrame(runningSS.getSprite(2, 11), 130);
-
-        wait = new Animation();
-
-        wait.setAutoUpdate(true);
-
-//        wait.addFrame(runningSS.getSprite(0, 14), 733);
-        // wait.addFrame(runningSS.getSprite(2, 14), 733);
-        // wait.addFrame(runningSS.getSprite(5, 14), 333);
-        sprite = down;
-
-        // *****************************************************************
-        // Obstacles etc.
-        // build a collision map based on tile properties in the TileD map
+ 
         Blocked.blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
-
-        // System.out.println("Map height:" + grassMap.getHeight());750
-        // System.out.println("Map width:" + grassMap.getWidth());
-        // There can be more than 1 layer. You'll check whatever layer has the
-        // obstacles.
-        // You could also use this for planning traps, etc.
-        // System.out.println("Number of tile layers: "
-        // +grassMap.getLayerCount());
-//        System.out.println("The grassmap is " + grassMap.getWidth() + "by "
-//                + grassMap.getHeight());
 
         for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
 
             for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
 
-                // int tileID = grassMap.getTileId(xAxis, yAxis, 0);
-                // Why was this changed?
-                // It's a Different Layer.
-                // You should read the TMX file. It's xml, i.e.,human-readable
-                // for a reason
                 int tileID = grassMap.getTileId(xAxis, yAxis, 0);
 
                 String value = grassMap.getTileProperty(tileID,
                         "blocked", "false");
 
                 if ("true".equals(value)) {
-
-//                    System.out.println("The tile at x " + xAxis + " andy axis "
-//                            + yAxis + " is blocked.");
 
                     Blocked.blocked[xAxis][yAxis] = true;
 
@@ -246,39 +157,8 @@ public class DungeonChallenge extends BasicGameState {
                 }
             }
         }
-        // A remarkably similar process for finding hostiles
-        hostiles = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
-        for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
-            for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
-                int xBlock = (int) xAxis;
-                int yBlock = (int) yAxis;
-                if (!Blocked.blocked[xBlock][yBlock]) {
-                    if (yBlock % 7 == 0 && xBlock % 15 == 0) {
-                        Item i = new Item(xAxis * SIZE, yAxis * SIZE);
-                        stuff.add(i);
-                        //stuff1.add(h);
-                        hostiles[xAxis][yAxis] = true;
-                    }
-                }
-            }
-        }
-
-        for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
-            for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
-                int xBlock = (int) xAxis;
-                int yBlock = (int) yAxis;
-                if (!Blocked.blocked[xBlock][yBlock]) {
-                    if (xBlock % 9 == 0 && yBlock % 25 == 0) {
-                        item1 h = new item1(xAxis * SIZE, yAxis * SIZE);
-                        //	stuff.add(i);
-                        stuff1.add(h);
-                        hostiles[xAxis][yAxis] = true;
-                    }
-                }
-            }
-        }
-
+        player = new Player();
         door1 = new Door(690, 174);
         door2 = new Door(607, 684);
         sdoor1 = new Door(340, 671);
@@ -346,94 +226,81 @@ public class DungeonChallenge extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
 
-        camera.centerOn((int) Player.x, (int) Player.y);
+        camera.centerOn((int) player.x, (int) player.y);
 
         camera.drawMap();
 
         camera.translateGraphics();
-
-//        g.draw(sdoor1.hitbox);
-        sprite.draw((int) Player.x, (int) Player.y);
-//        g.drawString("x: " + (int) Player.x + " y: " + (int) Player.y, Player.x, Player.y - 10);
+//        player.sprite = player.up;
+        player.sprite.draw(player.x, player.y);
+//        player.sprite.draw(0, 0);
+//        player.sprite.draw((int) player.x, (int) player.y);
         g.drawString("Score: " + score, camera.cameraX + 10, camera.cameraY + 10);
         g.drawString("Current Stage: " + currentStage, camera.cameraX + 10, camera.cameraY + 25);
-        //g.draw(player.rect);
 
-//        for (Lava l : lavalist) {
-//            g.draw(l.hitbox);
-//        }
-//
-//        for (Ladder l : ladderlist) {
-//            g.draw(l.hitbox);
-//        }
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
 
-        if (isBlocked(Player.x, Player.y + SIZE + delta * 0.1f)) {
+        if (isBlocked(player.x, player.y + SIZE + delta * 0.1f)) {
             ground = true;
-        } else if (isLand(Player.x, Player.y + SIZE + delta * 0.1f)) {
+        } else if (isLand(player.x, player.y + SIZE + delta * 0.1f)) {
             ground = true;
         } else {
             ground = false;
         }
         counter += delta;
 
-        float fdelta = delta * Player.speed;
+        float fdelta = delta * player.speed;
 
         Input input = gc.getInput();
 
-        if (!input.isKeyDown(Input.KEY_SPACE) && !Player.rect.intersects(ladder1.hitbox)
-                && !Player.rect.intersects(ladder2.hitbox) && !Player.rect.intersects(ladder3.hitbox)
-                && !Player.rect.intersects(ladder4.hitbox) && !Player.rect.intersects(ladder5.hitbox)
-                && !Player.rect.intersects(ladder6.hitbox) && !Player.rect.intersects(ladder7.hitbox)) {
-            Player.speed = 0.22f;
-            if (!isBlocked(Player.x - 5, Player.y + SIZE + 1 + fdelta)
-                    && (!isBlocked(Player.x + SIZE - 1, Player.y + SIZE + fdelta))) {
+        if (!input.isKeyDown(Input.KEY_SPACE) && !player.rect.intersects(ladder1.hitbox)
+                && !player.rect.intersects(ladder2.hitbox) && !player.rect.intersects(ladder3.hitbox)
+                && !player.rect.intersects(ladder4.hitbox) && !player.rect.intersects(ladder5.hitbox)
+                && !player.rect.intersects(ladder6.hitbox) && !player.rect.intersects(ladder7.hitbox) && !ground) {
+            player.speed = 0.22f;
+            if (!isBlocked(player.x - 5, player.y + SIZE + 1 + fdelta)
+                    && (!isBlocked(player.x + SIZE - 1, player.y + SIZE + fdelta))) {
 
-                sprite.update(delta);
-                verticalSpeed += .08f / 4 * delta;
-                Player.y += verticalSpeed;
-//                Player.y += fdelta;
+                player.sprite.update(delta);
+                verticalSpeed += .08f / 6 * delta;
+                player.y += verticalSpeed;
 
             }
         }
+        
+        else if (ground){
+            verticalSpeed = 0;
+        }
 
-        Player.setpdelta(fdelta);
+        player.setpdelta(fdelta);
 
         double rightlimit = (grassMap.getWidth() * SIZE) - (SIZE * 0.75);
 
-        // System.out.println("Right limit: " + rightlimit);
-        float projectedright = Player.x + fdelta + SIZE;
+        float projectedright = player.x + fdelta + SIZE;
 
         boolean cangoright = projectedright < rightlimit;
 
         if (input.isKeyDown(Input.KEY_SPACE)) {
-//            Player.speed = 0.35f;
-//            float fdsc = (float) (fdelta - (SIZE * 1));
-            if (!(isBlocked(Player.x, Player.y - fdelta) || isBlocked((float) (Player.x + SIZE + 1.5), Player.y - fdelta))) {
 
-                sprite.update(delta);
+            if (!(isBlocked(player.x, player.y - fdelta) || isBlocked((float) (player.x + SIZE + 1.5), player.y - fdelta))) {
 
-                // The lower the delta the slower the sprite will animate.
-//                Player.y -= fdelta;
+                player.sprite.update(delta);
+
                 if ((input.isKeyDown(Input.KEY_SPACE)) && !jumping && !(verticalSpeed >= 0)) {
-                    sprite = jump;
-//                    System.out.println("jumped??");
+                    player.sprite = player.jump;
                     verticalSpeed = -.6f / 2 * delta;//negative value indicates an upward movement 
                     jumping = true;
                 }
 
                 if (jumping) {
-//                    delta++;
-//                    System.out.println("changing vspeed??");
-                    verticalSpeed += .08f / 4 * delta;//change this value to alter gravity strength 
 
+                    verticalSpeed += .08f / 4 * delta;
                     if (ground) {
-                        // The lower the delta the slowest the sprite will animate.
-//                        System.out.println("idk");
-                        Player.y -= delta * 1f / 2;
+
+                        player.y -= delta * 1f / 2;
                         verticalSpeed = 0;
                         jumping = false;
 
@@ -442,31 +309,25 @@ public class DungeonChallenge extends BasicGameState {
                 }
 
                 if ((ground) && !jumping) {
-//                    System.out.println("i am midair");
                     verticalSpeed = -.06f / 2;
                 } else if (!(ground) && !jumping) {
-//                    System.out.println("im starting a jump");
                     verticalSpeed = -.023f / 2 * delta;
                 }
-//                if(!isBlocked(Player.x - 5, Player.y + SIZE + 1 + fdelta)
-//                    && (!isBlocked(Player.x + SIZE - 1, Player.y + SIZE + fdelta))){
-                Player.y += verticalSpeed;
+                player.y += verticalSpeed;
 
             }
         }
         if (input.isKeyDown(Input.KEY_UP)) {
 
-            sprite = up;
+            player.sprite = player.up;
             for (Ladder l : ladderlist) {
 
-                if (Player.rect.intersects(l.hitbox)
-                        && !(isBlocked(Player.x, Player.y - fdelta) || isBlocked(
-                                (float) (Player.x + SIZE + 1.5), Player.y - fdelta))) {
+                if (player.rect.intersects(l.hitbox)
+                        && !(isBlocked(player.x, player.y - fdelta) || isBlocked(
+                                (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
 
-                    sprite.update(delta);
-
-                    // The lower the delta the slower the sprite will animate.
-                    Player.y -= fdelta;
+                    player.sprite.update(delta);
+                    player.y -= fdelta;
 
                 }
 
@@ -474,143 +335,134 @@ public class DungeonChallenge extends BasicGameState {
 
         } else if (input.isKeyDown(Input.KEY_DOWN)) {
 
-            sprite = down;
+            player.sprite = player.down;
 
-            if (!isBlocked(Player.x - 5, Player.y + SIZE + 1 + fdelta)
-                    && (!isBlocked(Player.x + SIZE - 1, Player.y + SIZE + fdelta))) {
+            if (!isBlocked(player.x - 5, player.y + SIZE + 1 + fdelta)
+                    && (!isBlocked(player.x + SIZE - 1, player.y + SIZE + fdelta))) {
 
-                sprite.update(delta);
+                player.sprite.update(delta);
 
-                Player.y += fdelta;
+                player.y += fdelta;
 
             }
 
         }
         if (input.isKeyDown(Input.KEY_LEFT)) {
 
-            sprite = left;
+            player.sprite = player.left;
 
-            if (!(isBlocked(Player.x - fdelta, Player.y)
-                    || isBlocked(Player.x - fdelta, Player.y + SIZE - 1))) {
+            if (!(isBlocked(player.x - fdelta, player.y)
+                    || isBlocked(player.x - fdelta, player.y + SIZE - 1))) {
 
-                sprite.update(delta);
+                player.sprite.update(delta);
 
-                Player.x -= fdelta;
+                player.x -= fdelta;
 
             }
 
         }
         if (input.isKeyDown(Input.KEY_RIGHT)) {
 
-            sprite = right;
+            player.sprite = player.right;
 
-            // the boolean-kludge-implementation
             if (cangoright
-                    && (!(isBlocked(Player.x + SIZE + fdelta,
-                            Player.y) || isBlocked(Player.x + SIZE + fdelta, Player.y
+                    && (!(isBlocked(player.x + SIZE + fdelta,
+                            player.y) || isBlocked(player.x + SIZE + fdelta, player.y
                             + SIZE - 1)))) {
 
-                sprite.update(delta);
+                player.sprite.update(delta);
 
-                Player.x += fdelta;
+                player.x += fdelta;
 
-            } // else { System.out.println("Right limit reached: " +
-            // rightlimit);}
+            }
 
         }
         if (input.isKeyPressed(Input.KEY_DELETE)) {
-            Player.health = 0;
+            player.health = 0;
         }
 
-        Player.rect.setLocation(Player.getplayershitboxX(),
-                Player.getplayershitboxY());
+        player.rect.setLocation(player.getplayershitboxX(),
+                player.getplayershitboxY());
 
-        if (Player.rect.intersects(door1.hitbox)) {
-            Player.x = 96;
-            Player.y = 685;
+        if (player.rect.intersects(door1.hitbox)) {
+            player.x = 96;
+            player.y = 685;
             currentSpawnX = 96f;
             currentSpawnY = 685f;
             score += 1;
             currentStage = "Stage 2";
         }
-        if (Player.rect.intersects(sdoor1.hitbox)) {
-            Player.x = 110;
-            Player.y = 1245;
+        if (player.rect.intersects(sdoor1.hitbox)) {
+            player.x = 110;
+            player.y = 1245;
             currentSpawnX = 110;
             currentSpawnY = 1245;
             score += 2;
             currentStage = "Secret Stage 1";
         }
-        if (Player.rect.intersects(door2.hitbox)) {
-            Player.x = 96;
-            Player.y = 1706;
+        if (player.rect.intersects(door2.hitbox)) {
+            player.x = 96;
+            player.y = 1706;
             currentSpawnX = 96f;
             currentSpawnY = 1706f;
             score += 1;
             currentStage = "Stage 3";
         }
-        if (Player.rect.intersects(sdoor2.hitbox)) {
-            Player.x = 96;
-            Player.y = 1706;
+        if (player.rect.intersects(sdoor2.hitbox)) {
+            player.x = 96;
+            player.y = 1706;
             currentSpawnX = 96f;
             currentSpawnY = 1706f;
             score += 3;
             currentStage = "Stage 3";
         }
-        if (Player.rect.intersects(door3.hitbox)) {
-            Player.x = 92;
-            Player.y = 2168;
+        if (player.rect.intersects(door3.hitbox)) {
+            player.x = 92;
+            player.y = 2168;
             currentSpawnX = 96f;
             currentSpawnY = 2170f;
             score += 1;
             currentStage = "Stage 4";
         }
-        if (Player.rect.intersects(sdoor3.hitbox)) {
-            Player.x = 112;
-            Player.y = 2621;
+        if (player.rect.intersects(sdoor3.hitbox)) {
+            player.x = 112;
+            player.y = 2621;
             currentSpawnX = 112f;
             currentSpawnY = 2621f;
             score += 2;
             currentStage = "Special Stage 2";
         }
-        if (Player.rect.intersects(sdoor4.hitbox)) {
-            Player.x = 102;
-            Player.y = 3309;
+        if (player.rect.intersects(sdoor4.hitbox)) {
+            player.x = 102;
+            player.y = 3309;
             currentSpawnX = 102f;
             currentSpawnY = 3309f;
             score += 3;
             currentStage = "Stage 5";
         }
-        if (Player.rect.intersects(door4.hitbox)) {
-            Player.x = 102;
-            Player.y = 3309;
+        if (player.rect.intersects(door4.hitbox)) {
+            player.x = 102;
+            player.y = 3309;
             currentSpawnX = 102f;
             currentSpawnY = 3309f;
             score += 1;
             currentStage = "Stage 5";
         }
 
-//        if(Player.rect.intersects(lava1.hitbox)){
-//            Player.health =0;
-//        }
         for (Lava l : lavalist) {
 
-            if (Player.rect.intersects(l.hitbox)) {
-                //System.out.println("yay");
-
-                Player.health = 0;
-//                    l.isvisible = false;
+            if (player.rect.intersects(l.hitbox)) {
+                player.health = 0;
 
             }
         }
 
         for (itemwin w : stuffwin) {
 
-            if (Player.rect.intersects(w.hitbox)) {
-                //System.out.println("yay");
+            if (player.rect.intersects(w.hitbox)) {
                 if (w.isvisible) {
                     w.isvisible = false;
-                    makevisible();
+//                    makevisible();
                     sbg.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 
                 }
@@ -618,8 +470,8 @@ public class DungeonChallenge extends BasicGameState {
             }
         }
 
-        if (Player.health <= 0) {
-            makevisible();
+        if (player.health <= 0) {
+//            makevisible();
             sbg.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
 
@@ -631,17 +483,17 @@ public class DungeonChallenge extends BasicGameState {
 
     }
 
-    public void makevisible() {
-        for (item1 h : stuff1) {
-
-            h.isvisible = true;
-        }
-
-        for (Item i : stuff) {
-
-            i.isvisible = true;
-        }
-    }
+//    public void makevisible() {
+//        for (item1 h : stuff1) {
+//
+//            h.isvisible = true;
+//        }
+//
+//        for (Item i : stuff) {
+//
+//            i.isvisible = true;
+//        }
+//    }
 
     private boolean isLand(float x, float y) {
         int xBlock = (int) x / SIZE;
@@ -657,9 +509,9 @@ public class DungeonChallenge extends BasicGameState {
         try {
             return Blocked.blocked[xBlock][yBlock];
         } catch (IndexOutOfBoundsException e) {
-//            System.out.println("whoops");
-            Player.y -= 32;
+            player.y -= 32;
             return true;
         }
     }
+
 }

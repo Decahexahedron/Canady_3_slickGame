@@ -1,6 +1,8 @@
 package dungeon;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -24,8 +26,56 @@ class Player {
             getplayershitboxY(), width, height);
 
     public static float pdelta;
-
+    public Animation sprite, up, down, left, right, wait, jump;
     public static Animation playeranime;
+
+    public Player() throws SlickException {
+        SpriteSheet runningSS = new SpriteSheet(
+                "res/sprites.png", 16, 16, 0);
+
+        // System.out.println("Horizontal count: "
+        // +runningSS.getHorizontalCount());
+        // System.out.println("Vertical count: " +runningSS.getVerticalCount());
+        sprite = new Animation();
+        jump = new Animation();
+
+        jump.setAutoUpdate(true);
+
+        jump.addFrame(runningSS.getSprite(1, 5), 330);
+
+        up = new Animation();
+
+        up.setAutoUpdate(true);
+
+        up.addFrame(runningSS.getSprite(3, 5), 330);
+
+        down = new Animation();
+
+        down.setAutoUpdate(false);
+
+        down.addFrame(runningSS.getSprite(0, 5), 330);
+
+        left = new Animation();
+
+        left.setAutoUpdate(false);
+
+        left.addFrame(runningSS.getSprite(0, 9), 130);
+        left.addFrame(runningSS.getSprite(1, 9), 130);
+        left.addFrame(runningSS.getSprite(2, 9), 130);
+
+        right = new Animation();
+
+        right.setAutoUpdate(false);
+
+        right.addFrame(runningSS.getSprite(0, 11), 130);
+        right.addFrame(runningSS.getSprite(1, 11), 130);
+        right.addFrame(runningSS.getSprite(2, 11), 130);
+
+        wait = new Animation();
+
+        wait.setAutoUpdate(true);
+        sprite = up;
+    }
 
     public static void setpdelta(float somenum) {
 
