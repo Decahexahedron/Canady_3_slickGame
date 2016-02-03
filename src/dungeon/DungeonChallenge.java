@@ -2,40 +2,19 @@ package dungeon;
 
 import org.newdawn.slick.state.*;
 
-import java.io.IOException;
-
 import java.util.ArrayList;
 
-import java.util.Iterator;
-
-import java.util.logging.Level;
-
-import java.util.logging.Logger;
-
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 
 import org.newdawn.slick.AppGameContainer;
-
-import org.newdawn.slick.BasicGame;
-
-import org.newdawn.slick.Font;
 
 import org.newdawn.slick.GameContainer;
 
 import org.newdawn.slick.Graphics;
 
-import org.newdawn.slick.Image;
-
 import org.newdawn.slick.Input;
 
 import org.newdawn.slick.SlickException;
-
-import org.newdawn.slick.SpriteSheet;
-
-import org.newdawn.slick.geom.Rectangle;
-
-import org.newdawn.slick.geom.Shape;
 
 import org.newdawn.slick.state.BasicGameState;
 
@@ -45,17 +24,11 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import org.newdawn.slick.tiled.TiledMap;
 
-/*
- public Rhys coke;
- coke = new Rhys(100, 500);
- public ArrayList<Rhys> rhys = new ArrayList();
- coke.currentImage.draw(coke.x, coke.y);
- */
 public class DungeonChallenge extends BasicGameState {
 
     public Player player;
     public boolean jumping = false;
-    public float verticalSpeed;
+    public static float verticalSpeed;
     public boolean ground = false;
     private boolean[][] land;
 
@@ -86,18 +59,8 @@ public class DungeonChallenge extends BasicGameState {
 
     public static int counter = 0;
 
-    // Player stuff
-//    private Animation sprite, up, down, left, right, jump;
-    /**
-     *
-     * The collision map indicating which tiles block movement - generated based
-     *
-     * on tile properties
-     */
-    // changed to match size of sprites & map
     private static final int SIZE = 16;
 
-    // screen width and height won't change
     private static final int SCREEN_WIDTH = 1000;
 
     private static final int SCREEN_HEIGHT = 750;
@@ -117,7 +80,6 @@ public class DungeonChallenge extends BasicGameState {
 
         camera = new Camera(gc, grassMap);
 
- 
         Blocked.blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
         for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
@@ -231,10 +193,7 @@ public class DungeonChallenge extends BasicGameState {
         camera.drawMap();
 
         camera.translateGraphics();
-//        player.sprite = player.up;
         player.sprite.draw(player.x, player.y);
-//        player.sprite.draw(0, 0);
-//        player.sprite.draw((int) player.x, (int) player.y);
         g.drawString("Score: " + score, camera.cameraX + 10, camera.cameraY + 10);
         g.drawString("Current Stage: " + currentStage, camera.cameraX + 10, camera.cameraY + 25);
 
@@ -269,9 +228,7 @@ public class DungeonChallenge extends BasicGameState {
                 player.y += verticalSpeed;
 
             }
-        }
-        
-        else if (ground){
+        } else if (ground) {
             verticalSpeed = 0;
         }
 
@@ -482,18 +439,6 @@ public class DungeonChallenge extends BasicGameState {
         return 1;
 
     }
-
-//    public void makevisible() {
-//        for (item1 h : stuff1) {
-//
-//            h.isvisible = true;
-//        }
-//
-//        for (Item i : stuff) {
-//
-//            i.isvisible = true;
-//        }
-//    }
 
     private boolean isLand(float x, float y) {
         int xBlock = (int) x / SIZE;
