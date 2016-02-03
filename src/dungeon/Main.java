@@ -1,76 +1,65 @@
 package dungeon;
 
-
 import org.newdawn.slick.*;
 
 import org.newdawn.slick.state.*;
 
+public class Main extends StateBasedGame {
 
+    public static final String gamename = "Dungeon";
 
-public class Main extends StateBasedGame{
+    public static final int play = 0;
 
-   
+    public static final int xSize = 1000;
 
-   public static final String gamename = "Dungeon";
+    public static final int ySize = 750;
 
-   public static final int play = 0;
+    public Main(String gamename) {
 
-   public static final int xSize = 1000;
+        super(gamename);
 
-   public static final int ySize = 750;
+        this.addState(new Menu(xSize, ySize));
 
-   
+        this.addState(new DungeonChallenge(xSize, ySize));
 
-   public Main(String gamename){
+        this.addState(new lose(xSize, ySize));
 
-      super(gamename);
+        this.addState(new win(xSize, ySize));
 
-      this.addState(new Menu(xSize, ySize));
+    }
 
-      this.addState(new DungeonChallenge(xSize, ySize));
-      
-      this.addState(new lose(xSize, ySize));
-      
-      this.addState(new win(xSize, ySize));
+    public void initStatesList(GameContainer gc) throws SlickException {
 
-   }
+        this.getState(play).init(gc, this);
 
-   
+        this.enterState(play);
 
-   public void initStatesList(GameContainer gc) throws SlickException{
+    }
 
-      this.getState(play).init(gc, this);
+    public static void main(String[] args) {
 
-      this.enterState(play);
+        AppGameContainer appgc;
 
-   }
+        try {
 
-   
+            appgc = new AppGameContainer(new Main(gamename));
 
-   public static void main(String[] args) {
+            appgc.setDisplayMode(xSize, ySize, false);
 
-      AppGameContainer appgc;
+            int maxFPS = 60;
 
-      try{
+            appgc.setTargetFrameRate(maxFPS);
 
-         appgc = new AppGameContainer(new Main(gamename));
+            appgc.setTargetFrameRate(60);
 
-         appgc.setDisplayMode(xSize, ySize, false);
-         
-         int maxFPS = 60;
-        
-         appgc.setTargetFrameRate(maxFPS);
+            appgc.start();
 
-         appgc.setTargetFrameRate(60);
+        } catch (SlickException e) {
 
-         appgc.start();
+            e.printStackTrace();
 
-      }catch(SlickException e){
+        }
 
-         e.printStackTrace();
-
-      }
-
-   }
+    }
 
 }

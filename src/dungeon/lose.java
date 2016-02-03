@@ -74,6 +74,7 @@ public class lose extends BasicGameState {
             case Input.KEY_1:
 
                 Player.health = 10000;
+                DungeonChallenge.verticalSpeed = 0;
                 Player.speed = .22f;
                 DungeonChallenge.counter = 0;
                 itemwin.isvisible = true;
