@@ -1,31 +1,24 @@
 package dungeon;
 
 import org.newdawn.slick.state.*;
-
 import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
-
 import org.newdawn.slick.AppGameContainer;
-
 import org.newdawn.slick.GameContainer;
-
 import org.newdawn.slick.Graphics;
-
 import org.newdawn.slick.Input;
-
 import org.newdawn.slick.SlickException;
-
 import org.newdawn.slick.state.BasicGameState;
-
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-
 import org.newdawn.slick.tiled.TiledMap;
 
 public class DungeonChallenge extends BasicGameState {
 
+    public static boolean orbLeft = false;
+    public static boolean orbRight = false;
+    public Orb orb1;
     public Player player;
     public boolean jumping = false;
     public static float verticalSpeed;
@@ -44,25 +37,17 @@ public class DungeonChallenge extends BasicGameState {
     public Ladder ladder1, ladder2, ladder3, ladder4, ladder5, ladder6, ladder7;
 
     public ArrayList<itemwin> stuffwin = new ArrayList();
-
     public ArrayList<Lava> lavalist = new ArrayList();
-
     public ArrayList<Ladder> ladderlist = new ArrayList();
+    public ArrayList<Orb> orblist = new ArrayList();
 
     private boolean[][] hostiles;
-
     private static TiledMap grassMap;
-
     private static AppGameContainer app;
-
     private static Camera camera;
-
     public static int counter = 0;
-
     private static final int SIZE = 16;
-
     private static final int SCREEN_WIDTH = 1000;
-
     private static final int SCREEN_HEIGHT = 750;
 
     public DungeonChallenge(int xSize, int ySize) {
@@ -73,32 +58,20 @@ public class DungeonChallenge extends BasicGameState {
             throws SlickException {
 
         gc.setTargetFrameRate(60);
-
         gc.setShowFPS(false);
-
         grassMap = new TiledMap("res/platform.tmx");
-
         camera = new Camera(gc, grassMap);
-
         Blocked.blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
         for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
-
             for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
-
                 int tileID = grassMap.getTileId(xAxis, yAxis, 0);
-
                 String value = grassMap.getTileProperty(tileID,
                         "blocked", "false");
-
                 if ("true".equals(value)) {
-
                     Blocked.blocked[xAxis][yAxis] = true;
-
                 }
-
             }
-
         }
         for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
             for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
@@ -119,6 +92,9 @@ public class DungeonChallenge extends BasicGameState {
                 }
             }
         }
+
+        orb1 = new Orb((int) player.x + 5, (int) player.y);
+        orblist.add(orb1);
 
         player = new Player();
         door1 = new Door(690, 174);
@@ -180,7 +156,7 @@ public class DungeonChallenge extends BasicGameState {
         ladderlist.add(ladder6);
         ladderlist.add(ladder7);
 
-        antidote = new itemwin(3004, 92);
+//        antidote = new itemwin(3004, 92);
         endDoor = new itemwin(447, 3726);
         stuffwin.add(endDoor);
     }
@@ -189,13 +165,14 @@ public class DungeonChallenge extends BasicGameState {
             throws SlickException {
 
         camera.centerOn((int) player.x, (int) player.y);
-
         camera.drawMap();
-
         camera.translateGraphics();
         player.sprite.draw(player.x, player.y);
         g.drawString("Score: " + score, camera.cameraX + 10, camera.cameraY + 10);
         g.drawString("Current Stage: " + currentStage, camera.cameraX + 10, camera.cameraY + 25);
+        if (orb1.isvisible) {
+            orb1.orbimage.draw(orb1.getX(), orb1.getY(), 16, 16);
+        }
 
     }
 
@@ -334,6 +311,90 @@ public class DungeonChallenge extends BasicGameState {
             }
 
         }
+        if (input.isKeyDown(Input.KEY_W)) {
+
+            player.sprite = player.up;
+            for (Ladder l : ladderlist) {
+
+                if (player.rect.intersects(l.hitbox)
+                        && !(isBlocked(player.x, player.y - fdelta) || isBlocked(
+                                (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
+
+                    player.sprite.update(delta);
+                    player.y -= fdelta;
+
+                }
+
+            }
+
+        } else if (input.isKeyDown(Input.KEY_S)) {
+
+            player.sprite = player.down;
+
+            if (!isBlocked(player.x - 5, player.y + SIZE + 1 + fdelta)
+                    && (!isBlocked(player.x + SIZE - 1, player.y + SIZE + fdelta))) {
+
+                player.sprite.update(delta);
+
+                player.y += fdelta;
+
+            }
+
+        }
+        if (input.isKeyDown(Input.KEY_A)) {
+
+            player.sprite = player.left;
+
+            if (!(isBlocked(player.x - fdelta, player.y)
+                    || isBlocked(player.x - fdelta, player.y + SIZE - 1))) {
+
+                player.sprite.update(delta);
+
+                player.x -= fdelta;
+
+            }
+
+        }
+        if (input.isKeyDown(Input.KEY_D)) {
+
+            player.sprite = player.right;
+
+            if (cangoright
+                    && (!(isBlocked(player.x + SIZE + fdelta,
+                            player.y) || isBlocked(player.x + SIZE + fdelta, player.y
+                            + SIZE - 1)))) {
+
+                player.sprite.update(delta);
+
+                player.x += fdelta;
+
+            }
+
+        }
+        if (input.isKeyPressed(Input.KEY_F)) {
+            orb1.setX((int) player.x);
+            orb1.setY((int) player.y);
+            orb1.hitbox.setX(orb1.getX());
+            orb1.hitbox.setY(orb1.getY());
+            orb1.setIsvisible(!orb1.isIsvisible());
+            if (player.sprite == player.left) {
+                orbLeft = true;
+            } else if (player.sprite == player.right) {
+                orbRight = true;
+            }
+
+            if (orbLeft && orbRight) {
+                orb1.isvisible = false;
+                orbLeft = false;
+                orbRight = false;
+            }
+        }
+        if (orb1.isvisible && orbLeft) {
+            orb1.x -= 7;
+        } else if (orb1.isvisible && orbRight) {
+            orb1.x += 7;
+        }
+
         if (input.isKeyPressed(Input.KEY_DELETE)) {
             player.health = 0;
         }
