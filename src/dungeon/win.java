@@ -30,6 +30,7 @@ public class win extends BasicGameState {
 
     private StateBasedGame game;
     public Image winImage;
+//    public Player player;
 
     public win(int xSize, int ySize) {
 
@@ -37,7 +38,7 @@ public class win extends BasicGameState {
 
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException {
- winImage = new Image("res/Win.png");
+        winImage = new Image("res/Win.png");
         this.game = game;
 
 // TODO AutoÃ¢â‚¬Âgenerated method stub
@@ -48,7 +49,7 @@ public class win extends BasicGameState {
 
 // TODO AutoÃ¢â‚¬Âgenerated method stub
         g.setColor(Color.white);
-       winImage.draw();
+        winImage.draw();
         g.drawString("Your score was: " + DungeonChallenge.score, 400, 320);
 
     }
@@ -74,18 +75,13 @@ public class win extends BasicGameState {
 
             case Input.KEY_1:
 
-                Player.health = 1000;
-                Player.speed = .22f;
-                DungeonChallenge.counter = 0;
-                Player.x = 96f;
-                Player.y = 220f;
+                DungeonChallenge.player.health = 1000;
+                DungeonChallenge.player.speed = .22f;
+//                DungeonChallenge.counter = 0;
+                DungeonChallenge.player.x = DungeonChallenge.currentSpawnX;
+                DungeonChallenge.player.y = DungeonChallenge.currentSpawnY;
                 DungeonChallenge.score = 0;
-                DungeonChallenge.currentSpawnX = 96;
-                DungeonChallenge.currentSpawnY = 220;
                 DungeonChallenge.currentStage = "Stage 1";
-                
-                //item.isvisible = true;
-                //item1.isvisible = true;
                 itemwin.isvisible = true;
                 game.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 

@@ -21,20 +21,19 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class Menu extends BasicGameState {
+public class lose2 extends BasicGameState {
 
     private StateBasedGame game;
-
     public Image startimage;
+//    public Player player;
 
-    public Menu(int xSize, int ySize) {
+    public lose2(int xSize, int ySize) {
 
     }
 
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException {
-
-        startimage = new Image("res/Lorelei.png");
+        startimage = new Image("res/LossScreen.png");
 
         this.game = game;
 
@@ -44,11 +43,13 @@ public class Menu extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
 
+        startimage.draw();
+
 // TODO AutoÃ¢â‚¬Âgenerated method stub
         g.setColor(Color.white);
 
-        startimage.draw();
-
+        //g.drawString("You LOSE!", 450, 200);
+//        g.drawString("press 1 to try again", 400, 320);
     }
 
     public void update(GameContainer container, StateBasedGame game, int delta)
@@ -60,7 +61,7 @@ public class Menu extends BasicGameState {
     public int getID() {
 
 // TODO AutoÃ¢â‚¬Âgenerated method stub
-        return 0;
+        return 6;
 
     }
 
@@ -72,15 +73,21 @@ public class Menu extends BasicGameState {
 
             case Input.KEY_1:
 
-                game.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+//                DungeonChallenge.player.health = 10000;
+//                DungeonChallenge.verticalSpeed = 0;
+//                DungeonChallenge.player.speed = .22f;
+                Combat.bplayer.health = 100;
+                itemwin.isvisible = true;
+//                DungeonChallenge.player.x = DungeonChallenge.currentSpawnX;
+//                DungeonChallenge.player.y = DungeonChallenge.currentSpawnY;
+                Combat.bplayer.x = 95;
+                Combat.bplayer.y = 93;
+                game.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 
                 break;
 
             case Input.KEY_2:
 
-                Combat.bplayer.x = 95;
-                Combat.bplayer.y = 93;
-                game.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 // TODO: Implement later
                 break;
 

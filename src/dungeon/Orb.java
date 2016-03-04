@@ -11,6 +11,7 @@ public class Orb {
     public int y;
     private int damage;
     public boolean isvisible = true;
+    public int orbTime;
     Image currentImage;
     Shape hitbox;
     Image orbimage = new Image("res/Ninja_0.png");
@@ -21,7 +22,15 @@ public class Orb {
         this.y = b;
         this.hitbox = new Rectangle(a, b, 16, 16);
         this.currentImage = orbimage;
+        this.orbTime = 50;
+    }
 
+    public void setOrbTime(int orbTime) {
+        this.orbTime = orbTime;
+    }
+
+    public int getOrbTime() {
+        return orbTime;
     }
 
     public void setLocation(int a, int b) {

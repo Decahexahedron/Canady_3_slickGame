@@ -16,10 +16,11 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class DungeonChallenge extends BasicGameState {
 
-    public static boolean orbLeft = false;
-    public static boolean orbRight = false;
+//    public static int currentLevel = 0;
+    private static boolean orbLeft = false;
+    private static boolean orbRight = false;
     public Orb orb1;
-    public Player player;
+    public static Player player;
     public boolean jumping = false;
     public static float verticalSpeed;
     public boolean ground = false;
@@ -41,11 +42,10 @@ public class DungeonChallenge extends BasicGameState {
     public ArrayList<Ladder> ladderlist = new ArrayList();
     public ArrayList<Orb> orblist = new ArrayList();
 
-    private boolean[][] hostiles;
     private static TiledMap grassMap;
     private static AppGameContainer app;
     private static Camera camera;
-    public static int counter = 0;
+//    public static int counter = 0;
     private static final int SIZE = 16;
     private static final int SCREEN_WIDTH = 1000;
     private static final int SCREEN_HEIGHT = 750;
@@ -63,16 +63,6 @@ public class DungeonChallenge extends BasicGameState {
         camera = new Camera(gc, grassMap);
         Blocked.blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
-        for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
-            for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
-                int tileID = grassMap.getTileId(xAxis, yAxis, 0);
-                String value = grassMap.getTileProperty(tileID,
-                        "blocked", "false");
-                if ("true".equals(value)) {
-                    Blocked.blocked[xAxis][yAxis] = true;
-                }
-            }
-        }
         for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
             for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
                 int tileID = grassMap.getTileId(xAxis, yAxis, 0);
@@ -156,7 +146,6 @@ public class DungeonChallenge extends BasicGameState {
         ladderlist.add(ladder6);
         ladderlist.add(ladder7);
 
-//        antidote = new itemwin(3004, 92);
         endDoor = new itemwin(447, 3726);
         stuffwin.add(endDoor);
     }
@@ -173,7 +162,6 @@ public class DungeonChallenge extends BasicGameState {
         if (orb1.isvisible) {
             orb1.orbimage.draw(orb1.getX(), orb1.getY(), 16, 16);
         }
-
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
@@ -186,10 +174,8 @@ public class DungeonChallenge extends BasicGameState {
         } else {
             ground = false;
         }
-        counter += delta;
-
+//        counter += delta;
         float fdelta = delta * player.speed;
-
         Input input = gc.getInput();
 
         if (!input.isKeyDown(Input.KEY_SPACE) && !player.rect.intersects(ladder1.hitbox)
@@ -210,11 +196,8 @@ public class DungeonChallenge extends BasicGameState {
         }
 
         player.setpdelta(fdelta);
-
         double rightlimit = (grassMap.getWidth() * SIZE) - (SIZE * 0.75);
-
         float projectedright = player.x + fdelta + SIZE;
-
         boolean cangoright = projectedright < rightlimit;
 
         if (input.isKeyDown(Input.KEY_SPACE)) {
@@ -237,9 +220,7 @@ public class DungeonChallenge extends BasicGameState {
                         player.y -= delta * 1f / 2;
                         verticalSpeed = 0;
                         jumping = false;
-
                     }
-
                 }
 
                 if ((ground) && !jumping) {
@@ -248,38 +229,28 @@ public class DungeonChallenge extends BasicGameState {
                     verticalSpeed = -.023f / 2 * delta;
                 }
                 player.y += verticalSpeed;
-
             }
         }
         if (input.isKeyDown(Input.KEY_UP)) {
 
             player.sprite = player.up;
             for (Ladder l : ladderlist) {
-
                 if (player.rect.intersects(l.hitbox)
                         && !(isBlocked(player.x, player.y - fdelta) || isBlocked(
                                 (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
-
                     player.sprite.update(delta);
                     player.y -= fdelta;
-
                 }
-
             }
-
         } else if (input.isKeyDown(Input.KEY_DOWN)) {
 
             player.sprite = player.down;
 
             if (!isBlocked(player.x - 5, player.y + SIZE + 1 + fdelta)
                     && (!isBlocked(player.x + SIZE - 1, player.y + SIZE + fdelta))) {
-
                 player.sprite.update(delta);
-
                 player.y += fdelta;
-
             }
-
         }
         if (input.isKeyDown(Input.KEY_LEFT)) {
 
@@ -287,27 +258,18 @@ public class DungeonChallenge extends BasicGameState {
 
             if (!(isBlocked(player.x - fdelta, player.y)
                     || isBlocked(player.x - fdelta, player.y + SIZE - 1))) {
-
                 player.sprite.update(delta);
-
                 player.x -= fdelta;
-
             }
-
         }
         if (input.isKeyDown(Input.KEY_RIGHT)) {
 
             player.sprite = player.right;
 
-            if (cangoright
-                    && (!(isBlocked(player.x + SIZE + fdelta,
-                            player.y) || isBlocked(player.x + SIZE + fdelta, player.y
-                            + SIZE - 1)))) {
-
+            if (cangoright && (!(isBlocked(player.x + SIZE + fdelta, player.y)
+                    || isBlocked(player.x + SIZE + fdelta, player.y + SIZE - 1)))) {
                 player.sprite.update(delta);
-
                 player.x += fdelta;
-
             }
 
         }
@@ -315,16 +277,12 @@ public class DungeonChallenge extends BasicGameState {
 
             player.sprite = player.up;
             for (Ladder l : ladderlist) {
-
                 if (player.rect.intersects(l.hitbox)
-                        && !(isBlocked(player.x, player.y - fdelta) || isBlocked(
-                                (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
-
+                        && !(isBlocked(player.x, player.y - fdelta)
+                        || isBlocked((float) (player.x + SIZE + 1.5), player.y - fdelta))) {
                     player.sprite.update(delta);
                     player.y -= fdelta;
-
                 }
-
             }
 
         } else if (input.isKeyDown(Input.KEY_S)) {
@@ -333,13 +291,9 @@ public class DungeonChallenge extends BasicGameState {
 
             if (!isBlocked(player.x - 5, player.y + SIZE + 1 + fdelta)
                     && (!isBlocked(player.x + SIZE - 1, player.y + SIZE + fdelta))) {
-
                 player.sprite.update(delta);
-
                 player.y += fdelta;
-
             }
-
         }
         if (input.isKeyDown(Input.KEY_A)) {
 
@@ -349,11 +303,8 @@ public class DungeonChallenge extends BasicGameState {
                     || isBlocked(player.x - fdelta, player.y + SIZE - 1))) {
 
                 player.sprite.update(delta);
-
                 player.x -= fdelta;
-
             }
-
         }
         if (input.isKeyDown(Input.KEY_D)) {
 
@@ -365,11 +316,8 @@ public class DungeonChallenge extends BasicGameState {
                             + SIZE - 1)))) {
 
                 player.sprite.update(delta);
-
                 player.x += fdelta;
-
             }
-
         }
         if (input.isKeyPressed(Input.KEY_F)) {
             orb1.setX((int) player.x);
@@ -379,8 +327,10 @@ public class DungeonChallenge extends BasicGameState {
             orb1.setIsvisible(!orb1.isIsvisible());
             if (player.sprite == player.left) {
                 orbLeft = true;
+                orb1.setOrbTime(50);
             } else if (player.sprite == player.right) {
                 orbRight = true;
+                orb1.setOrbTime(50);
             }
 
             if (orbLeft && orbRight) {
@@ -390,17 +340,31 @@ public class DungeonChallenge extends BasicGameState {
             }
         }
         if (orb1.isvisible && orbLeft) {
-            orb1.x -= 7;
+            if (!(isBlocked(orb1.getX() - fdelta, player.y)
+                    || isBlocked(orb1.getX() - fdelta, orb1.getY() + SIZE - 1))) {
+                orb1.x -= 7;
+            }
+            orb1.setOrbTime(orb1.orbTime - 1);
         } else if (orb1.isvisible && orbRight) {
+
             orb1.x += 7;
+            orb1.setOrbTime(orb1.orbTime - 1);
+        }
+        if (orb1.orbTime <= 0) {
+            orb1.setIsvisible(false);
         }
 
-        if (input.isKeyPressed(Input.KEY_DELETE)) {
+        if (input.isKeyDown(Input.KEY_DELETE)) {
             player.health = 0;
         }
 
         player.rect.setLocation(player.getplayershitboxX(),
                 player.getplayershitboxY());
+
+        if (currentStage.equals("Stage 1")) {
+            currentSpawnX = 96f;
+            currentSpawnY = 220f;
+        }
 
         if (player.rect.intersects(door1.hitbox)) {
             player.x = 96;
@@ -471,7 +435,6 @@ public class DungeonChallenge extends BasicGameState {
 
             if (player.rect.intersects(l.hitbox)) {
                 player.health = 0;
-
             }
         }
 
@@ -481,10 +444,12 @@ public class DungeonChallenge extends BasicGameState {
                 if (w.isvisible) {
                     w.isvisible = false;
 //                    makevisible();
-                    sbg.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-
+                    sbg.enterState(5, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+                    Combat.bplayer.x = 95;
+                    Combat.bplayer.y = 95;
+                    Combat.bplayer.sprite = Combat.bplayer.up;
+//                    grassMap = new TiledMap("res/untitled.tmx");
                 }
-
             }
         }
 
@@ -492,13 +457,10 @@ public class DungeonChallenge extends BasicGameState {
 //            makevisible();
             sbg.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
-
     }
 
     public int getID() {
-
         return 1;
-
     }
 
     private boolean isLand(float x, float y) {
@@ -510,7 +472,6 @@ public class DungeonChallenge extends BasicGameState {
     private boolean isBlocked(float tx, float ty) {
 
         int xBlock = (int) tx / SIZE;
-
         int yBlock = (int) ty / SIZE;
         try {
             return Blocked.blocked[xBlock][yBlock];

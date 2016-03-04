@@ -25,6 +25,7 @@ public class lose extends BasicGameState {
 
     private StateBasedGame game;
     public Image startimage;
+//    public Player player;
 
     public lose(int xSize, int ySize) {
 
@@ -49,7 +50,6 @@ public class lose extends BasicGameState {
 
         //g.drawString("You LOSE!", 450, 200);
 //        g.drawString("press 1 to try again", 400, 320);
-
     }
 
     public void update(GameContainer container, StateBasedGame game, int delta)
@@ -73,20 +73,20 @@ public class lose extends BasicGameState {
 
             case Input.KEY_1:
 
-                Player.health = 10000;
+                DungeonChallenge.player.health = 10000;
                 DungeonChallenge.verticalSpeed = 0;
-                Player.speed = .22f;
-                DungeonChallenge.counter = 0;
+                DungeonChallenge.player.speed = .22f;
                 itemwin.isvisible = true;
-                Player.x = DungeonChallenge.currentSpawnX;
-                Player.y = DungeonChallenge.currentSpawnY;
-                //redo potions and reset cordinates of player
+                DungeonChallenge.player.x = DungeonChallenge.currentSpawnX;
+                DungeonChallenge.player.y = DungeonChallenge.currentSpawnY;
+//                Combat.bplayer.x = 95;
+//                Combat.bplayer.y = 93;
                 game.enterState(1, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 
                 break;
 
             case Input.KEY_2:
-                
+
 // TODO: Implement later
                 break;
 
