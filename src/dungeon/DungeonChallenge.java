@@ -13,6 +13,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.Music;
+import org.newdawn.slick.openal.*;
+//import org.newdawn.slick.jorbis.*;
+
 
 public class DungeonChallenge extends BasicGameState {
 
@@ -56,7 +60,8 @@ public class DungeonChallenge extends BasicGameState {
 
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-
+        
+        
         gc.setTargetFrameRate(60);
         gc.setShowFPS(false);
         grassMap = new TiledMap("res/platform.tmx");
@@ -157,6 +162,7 @@ public class DungeonChallenge extends BasicGameState {
         camera.drawMap();
         camera.translateGraphics();
         player.sprite.draw(player.x, player.y);
+//        g.draw(orb1.hitbox);
         g.drawString("Score: " + score, camera.cameraX + 10, camera.cameraY + 10);
         g.drawString("Current Stage: " + currentStage, camera.cameraX + 10, camera.cameraY + 25);
         if (orb1.isvisible) {
@@ -237,7 +243,7 @@ public class DungeonChallenge extends BasicGameState {
             for (Ladder l : ladderlist) {
                 if (player.rect.intersects(l.hitbox)
                         && !(isBlocked(player.x, player.y - fdelta) || isBlocked(
-                                (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
+                        (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
                     player.sprite.update(delta);
                     player.y -= fdelta;
                 }
@@ -310,10 +316,8 @@ public class DungeonChallenge extends BasicGameState {
 
             player.sprite = player.right;
 
-            if (cangoright
-                    && (!(isBlocked(player.x + SIZE + fdelta,
-                            player.y) || isBlocked(player.x + SIZE + fdelta, player.y
-                            + SIZE - 1)))) {
+            if (cangoright && (!(isBlocked(player.x + SIZE + fdelta,
+                    player.y) || isBlocked(player.x + SIZE + fdelta, player.y + SIZE - 1)))) {
 
                 player.sprite.update(delta);
                 player.x += fdelta;
@@ -339,6 +343,10 @@ public class DungeonChallenge extends BasicGameState {
                 orbRight = false;
             }
         }
+        if (orb1.isvisible) {
+            orb1.hitbox.setX(orb1.getX());
+            orb1.hitbox.setY(orb1.getY());
+        }
         if (orb1.isvisible && orbLeft) {
             if (!(isBlocked(orb1.getX() - fdelta, player.y)
                     || isBlocked(orb1.getX() - fdelta, orb1.getY() + SIZE - 1))) {
@@ -346,9 +354,11 @@ public class DungeonChallenge extends BasicGameState {
             }
             orb1.setOrbTime(orb1.orbTime - 1);
         } else if (orb1.isvisible && orbRight) {
-
-            orb1.x += 7;
-            orb1.setOrbTime(orb1.orbTime - 1);
+            if (!(isBlocked(orb1.getX() + SIZE + fdelta,
+                    orb1.getY()) || isBlocked(orb1.getX() + SIZE + fdelta, orb1.getY() + SIZE - 1))) {
+                orb1.x += 7;
+                orb1.setOrbTime(orb1.orbTime - 1);
+            }
         }
         if (orb1.orbTime <= 0) {
             orb1.setIsvisible(false);

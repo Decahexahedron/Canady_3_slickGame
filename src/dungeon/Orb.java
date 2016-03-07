@@ -14,7 +14,7 @@ public class Orb {
     public int orbTime;
     Image currentImage;
     Shape hitbox;
-    Image orbimage = new Image("res/Ninja_0.png");
+    Image orbimage = new Image("res/newOrb.png");
 
     Orb(int a, int b) throws SlickException {
         this.isvisible = false;

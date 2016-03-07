@@ -40,7 +40,9 @@ public class win extends BasicGameState {
             throws SlickException {
         winImage = new Image("res/Win.png");
         this.game = game;
-
+        DungeonChallenge.currentSpawnX = 96f;
+        DungeonChallenge.currentSpawnY = 220f;
+        DungeonChallenge.currentStage = "Stage 1";
 // TODO AutoÃ¢â‚¬Âgenerated method stub
     }
 

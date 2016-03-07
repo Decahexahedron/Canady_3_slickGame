@@ -30,8 +30,11 @@ public class Combat extends BasicGameState {
     public Orb orb2;
     private static boolean orbLeft = false;
     private static boolean orbRight = false;
-//    DungeonChallenge.currentSpawnX = 95;
-//    DungeonChallenge.currentSpawnY = 95;
+    public Fire fire1;
+    public Trap[][] traps;
+    public Enemy enemy1, enemy2, enemy3;
+    public ArrayList<Enemy> enemylist = new ArrayList();
+    public Door door;
 
     public Combat(int xSize, int ySize) {
     }
@@ -68,24 +71,75 @@ public class Combat extends BasicGameState {
 
         orb2 = new Orb((int) bplayer.x + 5, (int) bplayer.y);
         bplayer = new Player();
+        fire1 = new Fire(120, 94);
+//        traps[0][0] = new Trap(0,0);
+        door = new Door(80, 254);
+        enemy1 = new Enemy(135, 254);
+        enemy2 = new Enemy(185, 254);
+        enemy3 = new Enemy(215, 254);
+        enemylist.add(enemy1);
+        enemylist.add(enemy2);
+        enemylist.add(enemy3);
 
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
+        for (Enemy e : enemylist) {
+            if (e.isvisible) {
+                e.currentanime.draw(e.Bx, e.By);
+//                g.draw(e.rect);
+            }
+        }
         camera.centerOn((int) bplayer.x, (int) bplayer.y);
         camera.drawMap();
         camera.translateGraphics();
-        g.drawString("Health: " + bplayer.health, camera.cameraX + 10, camera.cameraY + 10);
+        g.drawString("Health: " + bplayer.health, camera.cameraX + 10, camera.cameraY + 30);
         bplayer.sprite.draw(bplayer.x, bplayer.y);
 
         if (orb2.isvisible) {
             orb2.orbimage.draw(orb2.getX(), orb2.getY(), 16, 16);
         }
+        g.draw(door.hitbox);
+        g.draw(orb2.hitbox);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
+
+        if (bplayer.rect.intersects(door.hitbox)) {
+            sbg.enterState(3, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        }
+
+        for (Enemy e : enemylist) {
+            if (bplayer.rect.intersects(e.rect) && e.isvisible) {
+                bplayer.health -= 10;
+            }
+        }
+        if (orb2.hitbox.intersects(enemy1.rect)) {
+            enemy1.isvisible = false;
+            enemy1.health = 0;
+            orb2.isvisible = false;
+        }
+        if (orb2.hitbox.intersects(enemy2.rect)) {
+            enemy2.isvisible = false;
+            enemy2.health = 0;
+            orb2.isvisible = false;
+        }
+        if (orb2.hitbox.intersects(enemy3.rect)) {
+            enemy3.isvisible = false;
+            enemy3.health = 0;
+            orb2.isvisible = false;
+        }
+        for (Enemy e : enemylist) {
+            e.move();
+        }
+        if (fire1.moveX()) {
+            fire1.setX(fire1.getX() + 1);
+        }
+        if (!fire1.moveX()) {
+            fire1.setX(fire1.getX() - 1);
+        }
         if (isBlocked2(bplayer.x, bplayer.y + SIZE + delta * 0.1f)) {
             ground = true;
         } else if (isLand(bplayer.x, bplayer.y + SIZE + delta * 0.1f)) {
@@ -240,6 +294,10 @@ public class Combat extends BasicGameState {
                 orbRight = false;
             }
         }
+        if (orb2.isvisible) {
+            orb2.hitbox.setX(orb2.getX() + 5);
+            orb2.hitbox.setY(orb2.getY() + 5);
+        }
         if (orb2.isvisible && orbLeft) {
             if (!(isBlocked2(orb2.getX() - fdelta, bplayer.y)
                     || isBlocked2(orb2.getX() - fdelta, orb2.getY() + SIZE - 1))) {
@@ -247,9 +305,11 @@ public class Combat extends BasicGameState {
             }
             orb2.setOrbTime(orb2.orbTime - 1);
         } else if (orb2.isvisible && orbRight) {
-
-            orb2.x += 7;
-            orb2.setOrbTime(orb2.orbTime - 1);
+            if (!(isBlocked2(orb2.getX() + SIZE + fdelta,
+                    orb2.getY()) || isBlocked2(orb2.getX() + SIZE + fdelta, orb2.getY() + SIZE - 1))) {
+                orb2.x += 7;
+                orb2.setOrbTime(orb2.orbTime - 1);
+            }
         }
         if (orb2.orbTime <= 0) {
             orb2.setIsvisible(false);

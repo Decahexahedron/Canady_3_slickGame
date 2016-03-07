@@ -4,22 +4,15 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 import org.newdawn.slick.Game;
-
 import org.newdawn.slick.GameContainer;
-
 import org.newdawn.slick.Graphics;
-
 import org.newdawn.slick.Input;
-
 import org.newdawn.slick.SlickException;
-
 import org.newdawn.slick.state.BasicGameState;
-
 import org.newdawn.slick.state.StateBasedGame;
-
 import org.newdawn.slick.state.transition.FadeInTransition;
-
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import org.newdawn.slick.Music;
 
 public class Menu extends BasicGameState {
 
@@ -33,7 +26,11 @@ public class Menu extends BasicGameState {
 
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException {
-
+        
+//        Music music1 = new Music("res/music.ogg");
+        
+//        music1.play();
+        
         startimage = new Image("res/Lorelei.png");
 
         this.game = game;
