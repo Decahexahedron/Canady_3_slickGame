@@ -100,8 +100,8 @@ public class Combat extends BasicGameState {
         if (orb2.isvisible) {
             orb2.orbimage.draw(orb2.getX(), orb2.getY(), 16, 16);
         }
-        g.draw(door.hitbox);
-        g.draw(orb2.hitbox);
+//        g.draw(door.hitbox);
+//        g.draw(orb2.hitbox);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
