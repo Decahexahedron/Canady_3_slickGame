@@ -17,10 +17,8 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.openal.*;
 //import org.newdawn.slick.jorbis.*;
 
-
 public class DungeonChallenge extends BasicGameState {
 
-//    public static int currentLevel = 0;
     private static boolean orbLeft = false;
     private static boolean orbRight = false;
     public Orb orb1;
@@ -49,7 +47,6 @@ public class DungeonChallenge extends BasicGameState {
     private static TiledMap grassMap;
     private static AppGameContainer app;
     private static Camera camera;
-//    public static int counter = 0;
     private static final int SIZE = 16;
     private static final int SCREEN_WIDTH = 1000;
     private static final int SCREEN_HEIGHT = 750;
@@ -60,8 +57,7 @@ public class DungeonChallenge extends BasicGameState {
 
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-        
-        
+
         gc.setTargetFrameRate(60);
         gc.setShowFPS(false);
         grassMap = new TiledMap("res/platform.tmx");
@@ -243,7 +239,7 @@ public class DungeonChallenge extends BasicGameState {
             for (Ladder l : ladderlist) {
                 if (player.rect.intersects(l.hitbox)
                         && !(isBlocked(player.x, player.y - fdelta) || isBlocked(
-                        (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
+                                (float) (player.x + SIZE + 1.5), player.y - fdelta))) {
                     player.sprite.update(delta);
                     player.y -= fdelta;
                 }
